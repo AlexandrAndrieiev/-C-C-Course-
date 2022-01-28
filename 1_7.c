@@ -1,3 +1,4 @@
+/*Task 1_7*/
 #include<stdio.h>
 #include<math.h>
 int main()
