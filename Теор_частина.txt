@@ -1,0 +1,79 @@
+Шаблон класу дозволяє визначити клас, який використовує певні типи, але на момент 
+написання коду точно не відомо, що це будуть за типи. Іншими словами, шаблон класу дає 
+змогу визначити універсальний клас, який не залежать від певного типу.
+Шаблони класів використовують, щоб уникнути повторюваності 
+написання коду для різних типів даних.
+
+Створення шаблону для класу масиву та використання шаблону для методу 
+додавання та видалення елементу масиву:
+#include <iostream>
+#include <cstdlib>
+
+template <class T>
+class BlackBox {
+private:
+    int n;
+    T* mas;
+public:
+    BlackBox() {}
+    BlackBox(int n_) {
+        n = n_;
+        mas = new T[n];
+    }
+    ~BlackBox() {
+        delete[] mas;
+    }
+
+    void input();
+    void show();
+    void push(T a);
+    T pop(int f);
+};
+
+template <typename T>
+void BlackBox<T>::input() {
+    for (int i = 0; i < n; i++) {
+        std::cout << "mas[" << i << "]=";
+        std::cin >> mas[i];
+    }
+}
+
+template <typename T>
+void BlackBox<T>::show() {
+    for (int i = 0; i < n; i++) {
+        std::cout << mas[i] << ",";
+    }
+}
+
+template <typename T>
+void BlackBox<T>::push(T a) {
+    mas[n++] = a;
+}
+
+template <typename T>
+T BlackBox<T>::pop(int f) {
+    int j = 0;
+    T t = mas[f%n];
+    T* mas1 = new T[n - 1];
+    for (int i = 0; i < n; i++) {
+        if (i != f%n) {
+            mas1[j] = mas[i];
+            j++;
+        }
+    }
+    mas = mas1;
+    n--;
+    return t;
+}
+
+
+int main() {
+    BlackBox<int> mas(4);
+    mas.input();
+    mas.show();
+    mas.push(10);
+    int a = mas.pop();
+    std::cout << a << std::endl;
+    mas.show();
+    return 0;
+}
